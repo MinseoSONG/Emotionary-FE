@@ -9,7 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -19,7 +18,7 @@ fun CommonButton(
     corner: Int,
     fontSize: Int,
     color: Int,
-    fontColor : Int,
+    fontColor: Int,
     onClick: () ->Unit
 ) {
     Button(
@@ -33,8 +32,32 @@ fun CommonButton(
         Text(
             text = label,
             fontSize = fontSize.sp,
-            fontWeight = FontWeight.Bold,
             color = colorResource(id = fontColor)
+        )
+    }
+}
+
+@Composable
+fun ChangeButton(
+    label: String,
+    corner: Int,
+    fontSize: Int,
+    color: () -> Int,
+    fontColor: () -> Int,
+    onClick: () ->Unit
+) {
+    Button(
+        onClick = onClick,
+        contentPadding = PaddingValues(12.dp),
+        modifier = Modifier
+            .fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(colorResource(id = color())),
+        shape = RoundedCornerShape(corner.dp)
+    ){
+        Text(
+            text = label,
+            fontSize = fontSize.sp,
+            color = colorResource(id = fontColor())
         )
     }
 }
