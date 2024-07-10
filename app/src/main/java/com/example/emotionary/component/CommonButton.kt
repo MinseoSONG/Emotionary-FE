@@ -19,13 +19,13 @@ fun CommonButton(
     fontSize: Int,
     color: Int,
     fontColor: Int,
+    paddingValues: Int,
+    modifier : Modifier,
     onClick: () ->Unit
 ) {
     Button(
         onClick = onClick,
-        contentPadding = PaddingValues(12.dp),
-        modifier = Modifier
-            .fillMaxWidth(),
+        contentPadding = PaddingValues(paddingValues.dp),
         colors = ButtonDefaults.buttonColors(colorResource(id = color)),
         shape = RoundedCornerShape(corner.dp)
     ){

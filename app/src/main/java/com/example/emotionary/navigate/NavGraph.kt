@@ -10,7 +10,7 @@ import com.example.emotionary.screen.start.SplashScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "Splash"){
+    NavHost(navController = navController, startDestination = "Signup1"){
         // 시작 start
         // 스플래쉬
         composable(route = "Splash"){

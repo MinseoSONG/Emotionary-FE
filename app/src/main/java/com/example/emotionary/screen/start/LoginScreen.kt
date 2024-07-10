@@ -2,6 +2,7 @@ package com.example.emotionary.screen.start
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -113,7 +114,11 @@ fun LoginScreen(navController: NavHostController) {
             Text(
                 text = "회원가입",
                 fontSize = 14.sp,
-                color = colorResource(id = R.color.dark_gray)
+                color = colorResource(id = R.color.dark_gray),
+                modifier = Modifier.clickable {
+                    // 회원가입 페이지
+                    navController.navigate("Signup1")
+                }
             )
             Text(
                 text = "아이디 찾기",

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -59,7 +60,9 @@ fun SplashScreen(navController: NavHostController) {
                 corner = 8,
                 fontSize = 16,
                 color = R.color.button_gray,
-                fontColor = R.color.black
+                fontColor = R.color.black,
+                paddingValues = 12,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 // 로그인 버튼
                 navController.navigate("Login")
