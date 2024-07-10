@@ -53,7 +53,7 @@ fun SplashScreen(navController: NavHostController) {
                         .clip(RoundedCornerShape(10.dp))
                 )
             }
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(80.dp))
 
             CommonButton(
                 label = "아이디 로그인",
@@ -67,12 +67,12 @@ fun SplashScreen(navController: NavHostController) {
                 // 로그인 버튼
                 navController.navigate("Login")
             }
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
             Text(
                 text = "회원가입",
                 fontSize = 16.sp,
-                color = colorResource(id = R.color.dark_gray),
+                color = colorResource(id = R.color.gray_800),
                 modifier = Modifier
                     .clickable {
                         // 회원가입 버튼

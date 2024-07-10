@@ -27,7 +27,8 @@ fun CommonButton(
         onClick = onClick,
         contentPadding = PaddingValues(paddingValues.dp),
         colors = ButtonDefaults.buttonColors(colorResource(id = color)),
-        shape = RoundedCornerShape(corner.dp)
+        shape = RoundedCornerShape(corner.dp),
+        modifier = modifier
     ){
         Text(
             text = label,

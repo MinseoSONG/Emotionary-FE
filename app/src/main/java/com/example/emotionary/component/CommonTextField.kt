@@ -30,8 +30,8 @@ fun CommonTextField(
         label = { Text(text = label) },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = colorResource(id = R.color.light_gray),
-            unfocusedBorderColor = colorResource(id = R.color.light_gray),
+            focusedBorderColor = colorResource(id = R.color.gray_200),
+            unfocusedBorderColor = colorResource(id = R.color.gray_200),
             focusedLabelColor = colorResource(id = R.color.main_gray_dark),
             unfocusedLabelColor = colorResource(id = R.color.main_gray_dark)
         ),

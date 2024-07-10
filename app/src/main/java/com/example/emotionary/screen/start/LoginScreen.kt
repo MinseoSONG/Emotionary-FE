@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.emotionary.R
 import com.example.emotionary.component.ChangeButton
-import com.example.emotionary.component.CommonButton
 import com.example.emotionary.component.CommonTextField
 
 @Composable
@@ -54,6 +54,7 @@ fun LoginScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.height(130.dp))
         Column {
             Column(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
@@ -67,7 +68,7 @@ fun LoginScreen(navController: NavHostController) {
                     fontSize = 13.sp
                 )
             }
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(50.dp))
 
             Column {
                 CommonTextField(
@@ -108,29 +109,33 @@ fun LoginScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.height(100.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 10.dp, end = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween
-        ){
+        ) {
             Text(
                 text = "회원가입",
                 fontSize = 14.sp,
-                color = colorResource(id = R.color.dark_gray),
-                modifier = Modifier.clickable {
-                    // 회원가입 페이지
-                    navController.navigate("Signup1")
-                }
+                color = colorResource(id = R.color.gray_800),
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        // 회원가입 페이지
+                        navController.navigate("Signup1")
+                    }
             )
             Text(
-                text = "아이디 찾기",
+                text = "아이디찾기",
                 fontSize = 14.sp,
-                color = colorResource(id = R.color.dark_gray)
+                color = colorResource(id = R.color.gray_800),
+                modifier = Modifier.weight(1f)
             )
             Text(
-                text = "비밀번호 찾기",
+                text = "비밀번호찾기",
                 fontSize = 14.sp,
-                color = colorResource(id = R.color.dark_gray)
+                color = colorResource(id = R.color.gray_800)
             )
         }
-
     }
 }
