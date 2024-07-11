@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.emotionary.screen.home.HomeScreen
 import com.example.emotionary.screen.start.LoginScreen
 import com.example.emotionary.screen.start.SignupScreen_ID
 import com.example.emotionary.screen.start.SignupScreen_Nickname
@@ -11,8 +12,8 @@ import com.example.emotionary.screen.start.SplashScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "Splash"){
-        // 시작 start
+    NavHost(navController = navController, startDestination = "Home"){
+        // start
         // 스플래쉬
         composable(route = "Splash"){
             SplashScreen(navController)
@@ -28,6 +29,30 @@ fun NavGraph(navController: NavHostController) {
         // 회원가입_2
         composable(route = "Signup2"){
             SignupScreen_Nickname(navController)
+        }
+
+        // home
+        // 홈
+        composable(route = "Home"){
+            HomeScreen(navController)
+        }
+
+        // diary
+        // 다이어리
+        composable(route = "Diary"){
+
+        }
+
+        // search
+        // 검색
+        composable(route = "Search"){
+
+        }
+
+        // mypage
+        // 마이페이지
+        composable(route = "MyPage"){
+
         }
     }
 }
