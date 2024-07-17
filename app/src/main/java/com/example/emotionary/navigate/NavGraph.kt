@@ -4,7 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.emotionary.screen.diary.DiaryScreen
 import com.example.emotionary.screen.home.HomeScreen
+import com.example.emotionary.screen.mypage.MyPageScreen
+import com.example.emotionary.screen.search.SearchScreen
 import com.example.emotionary.screen.start.LoginScreen
 import com.example.emotionary.screen.start.SignupScreen_ID
 import com.example.emotionary.screen.start.SignupScreen_Nickname
@@ -40,19 +43,19 @@ fun NavGraph(navController: NavHostController) {
         // diary
         // 다이어리
         composable(route = "Diary"){
-
+            DiaryScreen(navController)
         }
 
         // search
         // 검색
         composable(route = "Search"){
-
+            SearchScreen(navController)
         }
 
         // mypage
         // 마이페이지
         composable(route = "MyPage"){
-
+            MyPageScreen(navController)
         }
     }
 }
