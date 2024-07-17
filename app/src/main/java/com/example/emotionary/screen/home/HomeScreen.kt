@@ -131,8 +131,10 @@ fun HomeScreen(navController: NavHostController) {
                     contentScale = ContentScale.Crop
                 )
                 Column(
-                    modifier= Modifier.fillMaxHeight(),
-                    verticalArrangement = Arrangement.Center
+                    modifier= Modifier
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ){
                     Row {
                         Text(
@@ -141,8 +143,13 @@ fun HomeScreen(navController: NavHostController) {
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "의 "+ year +"년",
+                            text = "의 ",
                             fontSize = 24.sp
+                        )
+                        Text(
+                            text = year.toString()+"년",
+                            fontSize = 24.sp,
+                            color = colorResource(id = R.color.gray_700)
                         )
                     }
                     Row(
@@ -188,7 +195,6 @@ fun HomeScreen(navController: NavHostController) {
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(10.dp))
 
             // 목표 진행도
             Column(
@@ -256,6 +262,7 @@ fun HomeScreen(navController: NavHostController) {
 
                 }
             }
+            Spacer(modifier = Modifier.height(10.dp))
 
             Column(
                 modifier = Modifier
@@ -278,7 +285,7 @@ fun HomeScreen(navController: NavHostController) {
                             Text(text = day, fontSize = 12.sp)
                         }
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(15.dp))
 
                     Column(
                         modifier = Modifier
