@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -90,7 +89,7 @@ fun LoginScreen(navController: NavHostController) {
                     label = "로그인",
                     corner = 8,
                     fontSize = 16,
-                    color = { if(isButtonEnabled) R.color.black else R.color.button_gray },
+                    color = { if(isButtonEnabled) R.color.black else R.color.gray_100 },
                     fontColor = { if(isButtonEnabled) R.color.white else R.color.black }
                 ) {
                     // 로그인 버튼

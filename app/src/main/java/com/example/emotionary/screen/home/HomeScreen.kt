@@ -2,6 +2,7 @@ package com.example.emotionary.screen.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,9 +16,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,26 +45,58 @@ import com.example.emotionary.R
 import com.example.emotionary.component.Appbar
 import com.example.emotionary.component.TopLogo
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
-    val context = LocalContext.current
+    val scrollstate = rememberScrollState()
     val userNickname = "박뚝딱" // 닉네임
+
+    // 목표 진행도
+    val progress = 0.65f
     val targetTitle = "자격증 시험" // 목표 제목
     val targetStart = LocalDate.parse("2024-07-11") // 목표 시작 날짜
     val targetEnd = LocalDate.parse("2024-07-25") // 목표 종료 날짜
+
+    // 오늘
     val today = LocalDate.now()
 
     // D-Day 계산
     val D_Date = ChronoUnit.DAYS.between(today, targetEnd).toInt()
 
-    // 캘린더 띄울 달
+    // 캘린더 띄울 달, 년도
     var month by remember{
-        mutableStateOf(12)
+        mutableStateOf(today.monthValue)
+    }
+    var year by remember { mutableStateOf(LocalDate.now().year) }
+    var selectedDate by remember { mutableStateOf(today) }
+
+    // 감정
+    var emotion by remember{ mutableStateOf(4) }
+    var img_emotion by remember{ mutableStateOf(R.drawable.img_emotion_happy) }
+
+    if(emotion == 1){
+        img_emotion = R.drawable.img_emotion_angry
+    }
+    else if(emotion == 2){
+        img_emotion = R.drawable.img_emotion_sad
+    }
+    else if(emotion == 3){
+        img_emotion = R.drawable.img_emotion_soso
+    }
+    else if(emotion == 4){
+        img_emotion = R.drawable.img_emotion_happy
+    }
+    else if(emotion == 5){
+        img_emotion = R.drawable.img_emotion_perfect
     }
 
-    val progress = 0.65f
+    // 미리보기
+    var diaryTitle by remember {
+        mutableStateOf("옵치 연승한 날")
+    }
+
 
     Scaffold(
         containerColor = Color.White,
@@ -82,7 +117,7 @@ fun HomeScreen(navController: NavHostController) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp, end = 30.dp)
+                    .padding(start = 25.dp, end = 35.dp)
                     .height(90.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -106,7 +141,7 @@ fun HomeScreen(navController: NavHostController) {
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = " 의",
+                            text = "의 "+ year +"년",
                             fontSize = 24.sp
                         )
                     }
@@ -120,8 +155,12 @@ fun HomeScreen(navController: NavHostController) {
                             modifier = Modifier
                                 .size(25.dp)
                                 .clickable {
-                                    if (month != 1)
+                                    if (month == 1) {
+                                        month = 12
+                                        year -= 1
+                                    } else {
                                         month -= 1
+                                    }
                                 }
                         )
                         Spacer(modifier = Modifier.width(10.dp))
@@ -138,8 +177,12 @@ fun HomeScreen(navController: NavHostController) {
                             modifier = Modifier
                                 .size(25.dp)
                                 .clickable {
-                                    if (month != 12)
+                                    if (month == 12) {
+                                        month = 1
+                                        year += 1
+                                    } else {
                                         month += 1
+                                    }
                                 }
                         )
                     }
@@ -211,6 +254,182 @@ fun HomeScreen(navController: NavHostController) {
                         )
                     }
 
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(scrollstate)
+            ) {
+                // 캘린더
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp)
+                ) {
+                    // 요일 헤더
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        listOf("월", "화", "수", "목", "금", "토", "일").forEach { day ->
+                            Text(text = day, fontSize = 12.sp)
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        val currentYearMonth = YearMonth.of(year, month)
+                        val daysInMonth = currentYearMonth.lengthOfMonth()
+                        val firstDayOfMonth = LocalDate.of(year, month, 1)
+                        val startDayOfWeek = (firstDayOfMonth.dayOfWeek.value + 6) % 7 // 월요일이 0이 되도록 조정
+
+                        // 빈 칸 추가 (해당 월의 시작 요일에 맞추기 위해)
+                        var currentDay = 1 - startDayOfWeek
+
+                        while (currentDay <= daysInMonth) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceAround
+                            ) {
+                                for (i in 0..6) {
+                                    if (currentDay in 1..daysInMonth) {
+                                        val currentDate = LocalDate.of(year, month, currentDay)
+                                        val isPast = currentDate.isBefore(today)
+                                        val isSelect = currentDate.isEqual(selectedDate)
+
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Box(
+                                                contentAlignment = Alignment.Center,
+                                                modifier = Modifier
+                                                    .padding(4.dp)
+                                                    .size(33.dp)
+                                                    .shadow(5.dp, RoundedCornerShape(8.dp))
+                                                    .border(
+                                                        width = 1.dp,
+                                                        color = if (isSelect) Color.Black else Color.Black.copy(
+                                                            alpha = 0.2f
+                                                        ),
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    )
+                                                    .clip(RoundedCornerShape(8.dp))
+                                                    .background(
+                                                        when {
+                                                            isPast -> colorResource(id = R.color.gray_300)
+                                                            else -> colorResource(id = R.color.gray_100)
+                                                        }
+                                                    )
+                                                    .clickable {
+                                                        selectedDate = currentDate
+                                                    }
+                                            ) {
+                                                Image(
+                                                    painter = painterResource(id = img_emotion),
+                                                    contentDescription = "감정",
+                                                    modifier = Modifier
+                                                        .size(23.dp)
+                                                        .clip(CircleShape),
+                                                    contentScale = ContentScale.Crop
+                                                )
+                                            }
+                                            Text(
+                                                text = "$currentDay",
+                                                fontSize = 10.sp,
+                                                fontWeight = if(isSelect) FontWeight.Bold else FontWeight.Normal
+                                            )
+                                        }
+                                    } else {
+                                        Box(
+                                            modifier = Modifier
+                                                .padding(4.dp)
+                                                .size(30.dp)
+                                        )
+                                    }
+                                    currentDay++
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+                    }
+                }
+
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 20.dp)
+                )
+
+                // 일기 미리보기
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp, bottom = 30.dp)
+                ){
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "일기 미리보기",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = selectedDate.dayOfMonth.toString() + "일",
+                            fontSize = 12.sp,
+                            color = colorResource(id = R.color.gray_700)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(35.dp)
+                            .border(
+                                width = 1.dp,
+                                color = Color.Black.copy(alpha = 0.2f),
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .shadow(5.dp, RoundedCornerShape(12.dp))
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(colorResource(id = R.color.gray_100))
+                            .padding(3.dp)
+                            .clickable {
+                                // 상세보기 페이지로 이동
+
+                            }
+                    ){
+                        Row(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(start = 5.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ){
+                            Image(
+                                painter = painterResource(id = img_emotion),
+                                contentDescription = "감정",
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .clip(CircleShape),
+                                contentScale = ContentScale.Crop
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+
+                            Text(
+                                text = diaryTitle,
+                                fontSize = 12.sp
+                            )
+                        }
+                    }
                 }
             }
         }

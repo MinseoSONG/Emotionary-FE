@@ -22,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -101,7 +100,7 @@ fun SignupScreen_Nickname(navController: NavHostController) {
                         label = "이미지 등록",
                         corner = 12,
                         fontSize = 14,
-                        color = R.color.button_gray,
+                        color = R.color.gray_100,
                         fontColor = R.color.black,
                         paddingValues = 5,
                         modifier = Modifier
@@ -162,7 +161,7 @@ fun SignupScreen_Nickname(navController: NavHostController) {
             label = "가입하기",
             corner = 8,
             fontSize = 16,
-            color = { if(isButtonEnabled) R.color.black else R.color.button_gray },
+            color = { if(isButtonEnabled) R.color.black else R.color.gray_100 },
             fontColor = { if(isButtonEnabled) R.color.white else R.color.black }
         ) {
             // 로그인 화면으로 이동

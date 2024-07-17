@@ -59,7 +59,7 @@ fun SplashScreen(navController: NavHostController) {
                 label = "아이디 로그인",
                 corner = 8,
                 fontSize = 16,
-                color = R.color.button_gray,
+                color = R.color.gray_100,
                 fontColor = R.color.black,
                 paddingValues = 12,
                 modifier = Modifier.fillMaxWidth()

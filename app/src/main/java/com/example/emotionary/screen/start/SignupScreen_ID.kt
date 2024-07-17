@@ -158,7 +158,7 @@ fun SignupScreen_ID(navController: NavHostController) {
             label = "다음으로",
             corner = 8,
             fontSize = 16,
-            color = { if(isButtonEnabled) R.color.black else R.color.button_gray },
+            color = { if(isButtonEnabled) R.color.black else R.color.gray_100 },
             fontColor = { if(isButtonEnabled) R.color.white else R.color.black }
         ) {
             // 회원가입_2로 이동
