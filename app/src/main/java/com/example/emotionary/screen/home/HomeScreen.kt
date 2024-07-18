@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -34,16 +35,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.emotionary.R
 import com.example.emotionary.component.Appbar
 import com.example.emotionary.component.TopLogo
+import com.example.emotionary.viewmodel.UserViewModel
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.temporal.ChronoUnit
@@ -51,19 +53,20 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val scrollstate = rememberScrollState()
-    val userNickname = "박뚝딱" // 닉네임
 
-    // 목표 진행도
-    val progress = 0.65f
-    val targetTitle = "자격증 시험" // 목표 제목
-    val targetStart = LocalDate.parse("2024-07-11") // 목표 시작 날짜
-    val targetEnd = LocalDate.parse("2024-07-25") // 목표 종료 날짜
+    val userViewModel: UserViewModel = viewModel()
+    val homeInfo = userViewModel.homeInfo
 
-    // 오늘
-    val today = LocalDate.now()
+    val userName = homeInfo?.userName // 닉네임
 
-    // D-Day 계산
-    val D_Date = ChronoUnit.DAYS.between(today, targetEnd).toInt()
+    // 목표
+    val goal = homeInfo?.mainGoal
+    val progress = goal?.goalProgress ?: 0f // 목표 진행도
+    val goalTitle = goal?.goalTitle ?: "정해진 목표 없음" // 목표 제목
+    val goalStart = goal?.goalStart // 목표 시작 날짜
+    val goalEnd = goal?.goalEnd // 목표 종료 날짜
+    val today = LocalDate.now() // 오늘
+    val D_Date = if(goal != null) ChronoUnit.DAYS.between(today, goalEnd).toInt() else 0 // D-Day 계산
 
     // 캘린더 띄울 달, 년도
     var month by remember{
@@ -72,31 +75,31 @@ fun HomeScreen(navController: NavHostController) {
     var year by remember { mutableStateOf(LocalDate.now().year) }
     var selectedDate by remember { mutableStateOf(today) }
 
-    // 감정
-    var emotion by remember{ mutableStateOf(4) }
-    var img_emotion by remember{ mutableStateOf(R.drawable.img_emotion_happy) }
-
-    if(emotion == 1){
-        img_emotion = R.drawable.img_emotion_angry
-    }
-    else if(emotion == 2){
-        img_emotion = R.drawable.img_emotion_sad
-    }
-    else if(emotion == 3){
-        img_emotion = R.drawable.img_emotion_soso
-    }
-    else if(emotion == 4){
-        img_emotion = R.drawable.img_emotion_happy
-    }
-    else if(emotion == 5){
-        img_emotion = R.drawable.img_emotion_perfect
-    }
-
     // 미리보기
-    var diaryTitle by remember {
-        mutableStateOf("옵치 연승한 날")
+    val select = homeInfo?.diary?.find { it?.diaryDate == selectedDate }
+    val diaryTitle = select?.diaryTitle
+
+    // 감정
+    var diaryEmotion by remember{ mutableStateOf(R.drawable.img_emotion_happy) } // 선택된 날짜에 해당하는 일기에 띄울 감정
+    val emotionMap = remember { mutableStateMapOf<LocalDate, Int>() }
+
+    homeInfo?.diary?.forEach { diary ->
+        diary?.let {
+            val emotionDrawable = when (it.diaryEmotion) {
+                1 -> R.drawable.img_emotion_angry
+                2 -> R.drawable.img_emotion_sad
+                3 -> R.drawable.img_emotion_soso
+                4 -> R.drawable.img_emotion_happy
+                5 -> R.drawable.img_emotion_perfect
+                else -> R.drawable.img_emotion_happy
+            }
+            emotionMap[it.diaryDate] = emotionDrawable
+        }
     }
 
+    select?.let {
+        diaryEmotion = emotionMap[selectedDate] ?: R.drawable.img_emotion_happy
+    }
 
     Scaffold(
         containerColor = Color.White,
@@ -138,7 +141,7 @@ fun HomeScreen(navController: NavHostController) {
                 ){
                     Row {
                         Text(
-                            text = userNickname,
+                            text = "$userName",
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -230,12 +233,12 @@ fun HomeScreen(navController: NavHostController) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = targetTitle,
+                            text = "$goalTitle",
                             fontSize = 12.sp
                         )
 
                         Text(
-                            text = targetStart.toString() + " ~ " + targetEnd.toString(),
+                            text = if(goalStart!=null)goalStart.toString() else "" + " ~ " + if(goalEnd!=null)goalEnd.toString() else "",
                             fontSize = 10.sp,
                             color = colorResource(id = R.color.main_gray)
                         )
@@ -310,6 +313,7 @@ fun HomeScreen(navController: NavHostController) {
                                         val currentDate = LocalDate.of(year, month, currentDay)
                                         val isPast = currentDate.isBefore(today)
                                         val isSelect = currentDate.isEqual(selectedDate)
+                                        val emotionDrawable = emotionMap[currentDate]
 
                                         Column(
                                             horizontalAlignment = Alignment.CenterHorizontally
@@ -338,14 +342,16 @@ fun HomeScreen(navController: NavHostController) {
                                                         selectedDate = currentDate
                                                     }
                                             ) {
-                                                Image(
-                                                    painter = painterResource(id = img_emotion),
-                                                    contentDescription = "감정",
-                                                    modifier = Modifier
-                                                        .size(23.dp)
-                                                        .clip(CircleShape),
-                                                    contentScale = ContentScale.Crop
-                                                )
+                                                emotionDrawable?.let {
+                                                    Image(
+                                                        painter = painterResource(id = it),
+                                                        contentDescription = "감정",
+                                                        modifier = Modifier
+                                                            .size(23.dp)
+                                                            .clip(CircleShape),
+                                                        contentScale = ContentScale.Crop
+                                                    )
+                                                }
                                             }
                                             Text(
                                                 text = "$currentDay",
@@ -415,26 +421,28 @@ fun HomeScreen(navController: NavHostController) {
 
                             }
                     ){
-                        Row(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(start = 5.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ){
-                            Image(
-                                painter = painterResource(id = img_emotion),
-                                contentDescription = "감정",
+                        if(select!=null){
+                            Row(
                                 modifier = Modifier
-                                    .size(20.dp)
-                                    .clip(CircleShape),
-                                contentScale = ContentScale.Crop
-                            )
-                            Spacer(modifier = Modifier.width(10.dp))
+                                    .fillMaxSize()
+                                    .padding(start = 5.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ){
+                                Image(
+                                    painter = painterResource(id = diaryEmotion),
+                                    contentDescription = "감정",
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .clip(CircleShape),
+                                    contentScale = ContentScale.Crop
+                                )
+                                Spacer(modifier = Modifier.width(10.dp))
 
-                            Text(
-                                text = diaryTitle,
-                                fontSize = 12.sp
-                            )
+                                Text(
+                                    text = "$diaryTitle",
+                                    fontSize = 12.sp
+                                )
+                            }
                         }
                     }
                 }
