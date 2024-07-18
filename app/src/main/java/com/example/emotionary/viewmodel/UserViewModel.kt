@@ -17,7 +17,7 @@ class UserViewModel : ViewModel(){
             diary = listOf(
                 DiaryHome("a1",LocalDate.parse("2024-07-18"),5,"옵치 그마간 날"),
                 DiaryHome("a2",LocalDate.parse("2024-07-10"),2,"옵치 플레간 날"),
-                DiaryHome("a3",LocalDate.parse("2024-06-10"),2,"옵치 플레간 날")
+                DiaryHome("a3",LocalDate.parse("2024-06-15"),1,"화나는 날")
             )
     ))
 }

@@ -78,6 +78,7 @@ fun HomeScreen(navController: NavHostController) {
     // 미리보기
     val select = homeInfo?.diary?.find { it?.diaryDate == selectedDate }
     val diaryTitle = select?.diaryTitle
+    val diaryID = select?.diaryID
 
     // 감정
     var diaryEmotion by remember{ mutableStateOf(R.drawable.img_emotion_happy) } // 선택된 날짜에 해당하는 일기에 띄울 감정
@@ -238,7 +239,7 @@ fun HomeScreen(navController: NavHostController) {
                         )
 
                         Text(
-                            text = if(goalStart!=null)goalStart.toString() else "" + " ~ " + if(goalEnd!=null)goalEnd.toString() else "",
+                            text = (if(goalStart!=null)goalStart.toString() else "") + " ~ " + (if(goalEnd!=null)goalEnd.toString() else ""),
                             fontSize = 10.sp,
                             color = colorResource(id = R.color.main_gray)
                         )
@@ -418,7 +419,9 @@ fun HomeScreen(navController: NavHostController) {
                             .padding(3.dp)
                             .clickable {
                                 // 상세보기 페이지로 이동
-
+                                if(select!=null){
+                                    navController.navigate("SearchDetail/$diaryID/$selectedDate")
+                                }
                             }
                     ){
                         if(select!=null){

@@ -54,7 +54,7 @@ fun Appbar(
             diaryColor = R.color.black
         }
         3 -> {
-            searchImage = R.drawable.ic_profile_black
+            searchImage = R.drawable.ic_search_black
             searchColor = R.color.black
         }
         4 -> {
