@@ -45,6 +45,7 @@ import androidx.navigation.NavHostController
 import com.example.emotionary.R
 import com.example.emotionary.component.Appbar
 import com.example.emotionary.component.TopLogo
+import com.example.emotionary.data.IntToImgEmotion
 import com.example.emotionary.viewmodel.UserViewModel
 import java.time.LocalDate
 import java.time.YearMonth
@@ -86,14 +87,7 @@ fun HomeScreen(navController: NavHostController) {
 
     homeInfo?.diary?.forEach { diary ->
         diary?.let {
-            val emotionDrawable = when (it.diaryEmotion) {
-                1 -> R.drawable.img_emotion_angry
-                2 -> R.drawable.img_emotion_sad
-                3 -> R.drawable.img_emotion_soso
-                4 -> R.drawable.img_emotion_happy
-                5 -> R.drawable.img_emotion_perfect
-                else -> R.drawable.img_emotion_happy
-            }
+            val emotionDrawable = IntToImgEmotion(it.diaryEmotion)
             emotionMap[it.diaryDate] = emotionDrawable
         }
     }
