@@ -89,7 +89,7 @@ fun SearchScreen(navController: NavHostController) {
                     itemsIndexed(filteredList){_, item ->
                         SearchItemCard(item) {
                             // 클릭하면 다이어리 화면 이동
-                            navController.navigate("")
+                            navController.navigate("Diary/${item.diaryDate}")
                         }
                     }
                 }

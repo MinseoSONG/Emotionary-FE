@@ -9,7 +9,6 @@ import androidx.navigation.navArgument
 import com.example.emotionary.screen.diary.DiaryScreen
 import com.example.emotionary.screen.home.HomeScreen
 import com.example.emotionary.screen.mypage.MyPageScreen
-import com.example.emotionary.screen.search.SearchDetailScreen
 import com.example.emotionary.screen.search.SearchScreen
 import com.example.emotionary.screen.start.LoginScreen
 import com.example.emotionary.screen.start.SignupScreen_ID
@@ -19,7 +18,7 @@ import java.time.LocalDate
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "Search"){
+    NavHost(navController = navController, startDestination = "Diary/2024-07-28"){
         // start
         // 스플래쉬
         composable(route = "Splash"){
@@ -46,8 +45,14 @@ fun NavGraph(navController: NavHostController) {
 
         // diary
         // 다이어리
-        composable(route = "Diary"){
-            DiaryScreen(navController)
+        composable(
+            route = "Diary/{diaryDate}",
+            arguments = listOf(
+                navArgument("diaryDate"){type = NavType.StringType}
+            )
+        ) {
+            val diaryDate = it.arguments?.getString("diaryDate") ?: return@composable
+            DiaryScreen(diaryDate,navController)
         }
 
         // search
@@ -56,17 +61,6 @@ fun NavGraph(navController: NavHostController) {
             SearchScreen(navController)
         }
         // 상세보기
-        composable(
-            route = "SearchDetail/{diaryID}/{todoDate}",
-            arguments = listOf(
-                navArgument("diaryID"){type = NavType.StringType},
-                navArgument("todoDate"){type = NavType.StringType}
-            )
-        ) {
-            val diaryID = it.arguments?.getString("diaryID") ?: return@composable
-            val todoDate = it.arguments?.getString("todoDate") ?: return@composable
-            SearchDetailScreen(diaryID, todoDate)
-        }
 
         // mypage
         // 마이페이지
