@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.emotionary.R
+import java.time.LocalDate
 
 @Composable
 fun Appbar(
@@ -34,6 +35,8 @@ fun Appbar(
 ) {
     val imageSize: Dp = 20.dp
     val fontSize = 10.sp
+    val today = LocalDate.now() // 오늘
+    val stringToday = today.toString()
 
     var homeImage = R.drawable.ic_home_gray
     var homeColor = R.color.main_gray
@@ -85,7 +88,7 @@ fun Appbar(
                 verticalAlignment = Alignment.CenterVertically
             ){
                 CreateTap(navController, "Home", homeImage, homeColor, imageSize, fontSize, "홈")
-                CreateTap(navController, "Diary", diaryImage, diaryColor, imageSize, fontSize, "다이어리")
+                CreateTap(navController, "Diary/$stringToday", diaryImage, diaryColor, imageSize, fontSize, "다이어리")
                 CreateTap(navController, "Search", searchImage, searchColor, imageSize, fontSize, "검색")
                 CreateTap(navController, "MyPage", myPageImage, myPageColor, imageSize, fontSize, "MY")
             }

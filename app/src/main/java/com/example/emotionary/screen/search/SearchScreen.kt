@@ -56,7 +56,7 @@ fun SearchScreen(navController: NavHostController) {
         Column(
             modifier = Modifier
                 .background(Color.White)
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 20.dp, vertical = 20.dp)
                 .padding(paddingValues)
         ) {
             Column(

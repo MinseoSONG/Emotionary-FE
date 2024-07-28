@@ -1,12 +1,26 @@
 package com.example.emotionary.viewmodel
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.emotionary.data.Diary
 import com.example.emotionary.data.DiaryListItem
 import java.time.LocalDate
 
 class DiaryViewModel: ViewModel() {
     var diaryListItem = mutableStateListOf<DiaryListItem>()
+    var diary by mutableStateOf<Diary?>(
+        Diary(
+            diaryID = "1",
+            diaryDate = "2024-07-28",
+            diaryEmotion = 2,
+            diaryTitle = "에버랜드 갔다옴",
+            diaryDetail = "에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴,에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴, 에버랜드 갔다옴",
+            diaryImage = emptyList()
+        )
+    )
     init {
         diaryListItem.addAll(
             listOf(

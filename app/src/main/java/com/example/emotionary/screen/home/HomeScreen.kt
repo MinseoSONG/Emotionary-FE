@@ -67,7 +67,7 @@ fun HomeScreen(navController: NavHostController) {
     val goalStart = goal?.goalStart // 목표 시작 날짜
     val goalEnd = goal?.goalEnd // 목표 종료 날짜
     val today = LocalDate.now() // 오늘
-    val D_Date = if(goal != null) ChronoUnit.DAYS.between(today, goalEnd).toInt() else 0 // D-Day 계산
+    val D_Date = if(goal != null) ChronoUnit.DAYS.between(today, LocalDate.parse(goalEnd)).toInt() else 0 // D-Day 계산
 
     // 캘린더 띄울 달, 년도
     var month by remember{
@@ -77,7 +77,7 @@ fun HomeScreen(navController: NavHostController) {
     var selectedDate by remember { mutableStateOf(today) }
 
     // 미리보기
-    val select = homeInfo?.diary?.find { it?.diaryDate == selectedDate }
+    val select = homeInfo?.diary?.find { LocalDate.parse(it?.diaryDate) == selectedDate }
     val diaryTitle = select?.diaryTitle
 
     // 감정
@@ -87,7 +87,7 @@ fun HomeScreen(navController: NavHostController) {
     homeInfo?.diary?.forEach { diary ->
         diary?.let {
             val emotionDrawable = IntToImgEmotion(it.diaryEmotion)
-            emotionMap[it.diaryDate] = emotionDrawable
+            emotionMap[LocalDate.parse(it.diaryDate)] = emotionDrawable
         }
     }
 
@@ -232,7 +232,7 @@ fun HomeScreen(navController: NavHostController) {
                         )
 
                         Text(
-                            text = (if(goalStart!=null)goalStart.toString() else "") + " ~ " + (if(goalEnd!=null)goalEnd.toString() else ""),
+                            text = (if(goalStart!=null)goalStart else "") + " ~ " + (if(goalEnd!=null)goalEnd else ""),
                             fontSize = 10.sp,
                             color = colorResource(id = R.color.main_gray)
                         )

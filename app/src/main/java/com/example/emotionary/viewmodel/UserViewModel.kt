@@ -13,11 +13,11 @@ class UserViewModel : ViewModel(){
     var homeInfo by mutableStateOf<HomeInfo?>(
         HomeInfo(
             userName = "박뚝딱",
-            mainGoal = GoalHome("자격증시험", LocalDate.parse("2024-07-15"), LocalDate.parse("2024-08-28"),0.7f),
+            mainGoal = GoalHome("자격증시험", "2024-07-15", "2024-08-28",0.7f),
             diary = listOf(
-                DiaryHome("a1",LocalDate.parse("2024-07-18"),5,"옵치 그마간 날"),
-                DiaryHome("a2",LocalDate.parse("2024-07-10"),2,"옵치 플레간 날"),
-                DiaryHome("a3",LocalDate.parse("2024-06-15"),1,"화나는 날")
+                DiaryHome("a1","2024-07-18",5,"옵치 그마간 날"),
+                DiaryHome("a2","2024-07-10",2,"옵치 플레간 날"),
+                DiaryHome("a3","2024-06-15",1,"화나는 날")
             )
     ))
 }

@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 data class Diary(
     val diaryID: String, // 일기 아이디
-    val diaryDate: LocalDate, // 날짜
+    val diaryDate: String, // 날짜
     val diaryEmotion: Int, // 감정
     val diaryTitle: String, // 일기 제목
     val diaryDetail: String, // 일기 내용
@@ -14,7 +14,7 @@ data class Diary(
 // 홈 화면
 data class DiaryHome(
     val diaryID: String,
-    val diaryDate: LocalDate,
+    val diaryDate: String,
     val diaryEmotion: Int,
     val diaryTitle: String
 )
