@@ -131,11 +131,12 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                 ) {
                     // 점선 배경
                     Canvas(modifier = Modifier.matchParentSize()) {
-                        val lineHeight = size.height / 8
+                        val lineHeight = 20.dp.toPx() // Text의 lineHeight와 동일하게 설정
                         val strokeWidth = 1.dp.toPx()
                         val lineColor = Color.Gray
 
-                        for (i in 1..8) {
+                        val numLines = (size.height / lineHeight).toInt()
+                        for (i in 1..numLines) {
                             val y = i * lineHeight
                             drawLine(
                                 color = lineColor,
