@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.example.emotionary.data.DiaryHome
 import com.example.emotionary.data.GoalHome
 import com.example.emotionary.data.HomeInfo
-import java.time.LocalDate
 
 class UserViewModel : ViewModel(){
     var homeInfo by mutableStateOf<HomeInfo?>(

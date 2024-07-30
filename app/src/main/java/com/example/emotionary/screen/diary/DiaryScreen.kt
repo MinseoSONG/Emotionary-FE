@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,15 +35,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.emotionary.R
 import com.example.emotionary.component.Appbar
+import com.example.emotionary.component.TodoTab
 import com.example.emotionary.component.TopLogo
 import com.example.emotionary.data.IntToImgEmotion
 import com.example.emotionary.viewmodel.DiaryViewModel
+import com.example.emotionary.viewmodel.TodoViewModel
 import java.time.LocalDate
 
 @Composable
 fun DiaryScreen(diaryDate: String, navController: NavHostController) {
     val today = LocalDate.now() // 오늘
     val diaryDate = LocalDate.parse(diaryDate)
+    val scrollstate = rememberScrollState()
 
     // 일기
     val diaryViewModel : DiaryViewModel = viewModel()
@@ -49,6 +54,9 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
     val diaryTitle = diary?.diaryTitle ?: "작성된 일기가 없습니다."
     val diaryDetail = diary?.diaryDetail ?: ""
     val emotionDrawable = IntToImgEmotion(diary?.diaryEmotion ?: 1)
+
+    // 할일
+    val todoViewModel : TodoViewModel = viewModel()
 
     Scaffold(
         containerColor = Color.White,
@@ -64,6 +72,7 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                 .background(Color.White)
                 .padding(horizontal = 20.dp, vertical = 20.dp)
                 .padding(paddingValues)
+                .verticalScroll(scrollstate)
         ) {
             // 일기
             Column(
@@ -174,10 +183,11 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                 Spacer(modifier = Modifier.height(20.dp))
             }
 
-            // 투두
+            // 할일
             Column(
                 modifier = Modifier.fillMaxWidth()
             ){
+                // 날짜
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -192,8 +202,13 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                         fontWeight = FontWeight.Bold
                     )
                 }
-            }
 
+                // 할일 목록 표시
+                todoViewModel.diaryInfo.forEach{todo->
+                    TodoTab(todoCategory = todo.todoCategory, todoCheckList = todo.todoCheckList, todoViewModel = todoViewModel)
+                }
+
+            }
         }
     }
 }

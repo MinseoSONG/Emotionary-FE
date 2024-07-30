@@ -1,7 +1,8 @@
 package com.example.emotionary.data
 
-import java.time.LocalDate
+import androidx.compose.runtime.snapshots.SnapshotStateList
 
 data class Todo(
-    val todoDate: LocalDate
+    val todoCategory: String, // 카테고리
+    val todoCheckList: SnapshotStateList<checkList> // 체크리스트
 )

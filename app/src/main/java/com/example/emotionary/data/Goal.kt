@@ -17,8 +17,3 @@ data class GoalHome(
     val goalEnd: String,
     val goalProgress: Float
 )
-
-data class checkList(
-    val checkListTitle: String,
-    val checkListCheck: Boolean
-)
