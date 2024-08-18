@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.emotionary.screen.diary.DiaryScreen
+import com.example.emotionary.screen.diary.DiaryWriteScreen
+import com.example.emotionary.screen.diary.TodoScreen
 import com.example.emotionary.screen.home.HomeScreen
 import com.example.emotionary.screen.mypage.MyPageScreen
 import com.example.emotionary.screen.search.SearchScreen
@@ -54,13 +56,32 @@ fun NavGraph(navController: NavHostController) {
             val diaryDate = it.arguments?.getString("diaryDate") ?: return@composable
             DiaryScreen(diaryDate,navController)
         }
+        // 일기 추가, 수정
+        composable(
+            route = "DiaryWrite/{diaryDate}",
+            arguments = listOf(
+                navArgument("diaryDate"){type = NavType.StringType}
+            )
+        ) {
+            val diaryDate = it.arguments?.getString("diaryDate") ?: return@composable
+            DiaryWriteScreen(diaryDate, navController)
+        }
+        // 투두 추가
+        composable(
+            route = "Todo/{diaryDate}",
+            arguments = listOf(
+                navArgument("diaryDate"){type = NavType.StringType}
+            )
+        ) {
+            val diaryDate = it.arguments?.getString("diaryDate") ?: return@composable
+            TodoScreen(diaryDate, navController)
+        }
 
         // search
         // 검색
         composable(route = "Search"){
             SearchScreen(navController)
         }
-        // 상세보기
 
         // mypage
         // 마이페이지

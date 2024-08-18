@@ -273,7 +273,7 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                     onClick = {
                         // 일기수정 페이지로 이동
                         expanded = false
-                        navController.navigate("")
+                        navController.navigate("DiaryWrite/${diaryDate}")
                     },
                     modifier = Modifier
                         .size(90.dp, 20.dp)
@@ -294,7 +294,7 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                     onClick = {
                         // 일기쓰기 페이지로 이동
                         expanded = false
-                        navController.navigate("")
+                        navController.navigate("DiaryWrite/${diaryDate}")
                     },
                     modifier = Modifier
                         .size(90.dp, 20.dp)
@@ -315,7 +315,7 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                     onClick = {
                         // 투두추가 페이지로 이동
                         expanded = false
-                        navController.navigate("")
+                        navController.navigate("Todo/${diaryDate}")
                     },
                     modifier = Modifier
                         .size(90.dp, 20.dp)
