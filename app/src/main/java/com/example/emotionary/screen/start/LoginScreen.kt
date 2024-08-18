@@ -1,5 +1,7 @@
 package com.example.emotionary.screen.start
 
+import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,10 +30,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.emotionary.R
 import com.example.emotionary.component.ChangeButton
 import com.example.emotionary.component.CommonTextField
+import com.example.emotionary.viewmodel.LoginViewModel
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -42,6 +47,11 @@ fun LoginScreen(navController: NavHostController) {
     }
     val isButtonEnabled = userID.isNotEmpty() && userPassWord.isNotEmpty()
     val context = LocalContext.current
+
+    val sharedPreferences = context.getSharedPreferences("LoginInfo", Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+
+    val loginViewModel: LoginViewModel = viewModel()
 
     Column(
         modifier = Modifier
@@ -93,14 +103,30 @@ fun LoginScreen(navController: NavHostController) {
                     fontColor = { if(isButtonEnabled) R.color.white else R.color.black }
                 ) {
                     // 로그인 버튼
-                    if(isButtonEnabled) // 활성화
-                        navController.navigate("Home")
+                    if(isButtonEnabled) { // 활성화
+                        loginViewModel.initializeState()
+                        loginViewModel.postLogin(userID, userPassWord)
+                    }
                     else if(userID.isNotEmpty() && userPassWord.isEmpty()) // 비활성화
                         Toast.makeText(context, "비밀번호 입력창이 비어있습니다.", Toast.LENGTH_SHORT).show()
                     else if(userID.isEmpty() && userPassWord.isNotEmpty())
                         Toast.makeText(context, "아이디 입력창이 비어있습니다.", Toast.LENGTH_SHORT).show()
                     else
                         Toast.makeText(context, "입력창이 비어있습니다.", Toast.LENGTH_SHORT).show()
+                }
+
+                LaunchedEffect(loginViewModel.success) {
+                    if(loginViewModel.success == true){
+                        editor.putString("userID", userID)
+                        editor.putString("userPassword", userPassWord)
+                        editor.apply()
+                        Toast.makeText(context, "${loginViewModel.loginInfo.user.userName}님 환영합니다!",Toast.LENGTH_SHORT).show()
+                        navController.navigate("Home")
+                    }
+                    else if(loginViewModel.success == false){
+                        Toast.makeText(context, loginViewModel.message, Toast.LENGTH_SHORT).show()
+                        Log.d("Login", "Login Failed")
+                    }
                 }
             }
         }

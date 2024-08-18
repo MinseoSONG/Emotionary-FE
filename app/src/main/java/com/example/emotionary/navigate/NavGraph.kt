@@ -20,7 +20,7 @@ import java.time.LocalDate
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "Diary/2024-08-18"){
+    NavHost(navController = navController, startDestination = "Login"){
         // start
         // 스플래쉬
         composable(route = "Splash"){
