@@ -253,25 +253,24 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
             // floating 버튼
             DropdownMenu(
                 expanded = expanded,
-                onDismissRequest = {expanded = false},
-                offset = DpOffset(280.dp,-120.dp),
+                onDismissRequest = { expanded = false },
+                offset = DpOffset((-16).dp, (-56).dp),
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
                     .background(Color.White)
             ) {
                 DropdownMenuItem(
                     text = {
-                           Text(
-                               text = "일기수정",
-                               fontSize = 13.sp,
-                               color = Color.Gray,
-                               fontWeight = FontWeight.Bold,
-                               textAlign = TextAlign.Center,
-                               modifier = Modifier.fillMaxSize()
-                           )
+                        Text(
+                            text = "일기수정",
+                            fontSize = 13.sp,
+                            color = Color.Gray,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxSize()
+                        )
                     },
                     onClick = {
-                        // 일기수정 페이지로 이동
                         expanded = false
                         navController.navigate("DiaryWrite/${diaryDate}")
                     },
@@ -292,7 +291,6 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                         )
                     },
                     onClick = {
-                        // 일기쓰기 페이지로 이동
                         expanded = false
                         navController.navigate("DiaryWrite/${diaryDate}")
                     },
@@ -313,7 +311,6 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                         )
                     },
                     onClick = {
-                        // 투두추가 페이지로 이동
                         expanded = false
                         navController.navigate("Todo/${diaryDate}")
                     },
@@ -322,6 +319,7 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                         .align(Alignment.CenterHorizontally)
                 )
             }
+
         }
     }
 }

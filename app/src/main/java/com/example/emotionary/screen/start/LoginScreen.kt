@@ -35,6 +35,7 @@ import androidx.navigation.NavHostController
 import com.example.emotionary.R
 import com.example.emotionary.component.ChangeButton
 import com.example.emotionary.component.CommonTextField
+import com.example.emotionary.component.PassWordTextField
 import com.example.emotionary.viewmodel.LoginViewModel
 
 @Composable
@@ -87,7 +88,7 @@ fun LoginScreen(navController: NavHostController) {
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next
                 )
-                CommonTextField(
+                PassWordTextField(
                     value = userPassWord,
                     onValueChange = {userPassWord = it},
                     label = "비밀번호",
