@@ -67,14 +67,14 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
     val scrollstate = rememberScrollState()
 
     // 일기
-    val diaryViewModel : DiaryViewModel = viewModel()
+    val diaryViewModel: DiaryViewModel = viewModel()
     val diary = diaryViewModel.diary
     val diaryTitle = diary?.diaryTitle ?: "작성된 일기가 없습니다."
     val diaryDetail = diary?.diaryDetail ?: ""
     val emotionDrawable = IntToImgEmotion(diary?.diaryEmotion ?: 1)
 
     // 할일
-    val todoViewModel : TodoViewModel = viewModel()
+    val todoViewModel: TodoViewModel = viewModel()
 
     // floating 버튼
     var expanded by remember { mutableStateOf(false) }
@@ -90,14 +90,16 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { expanded = true },
-                containerColor = if(expanded == false) colorResource(id = R.color.main_yellow) else colorResource(id = R.color.gray_300),
+                containerColor = if (expanded == false) colorResource(id = R.color.main_yellow) else colorResource(
+                    id = R.color.gray_300
+                ),
                 shape = CircleShape,
                 modifier = Modifier
                     .size(50.dp)
                     .padding(0.dp)
             ) {
                 Image(
-                    painter = if(expanded == false) painterResource(id = R.drawable.ic_plus) else painterResource(
+                    painter = if (expanded == false) painterResource(id = R.drawable.ic_plus) else painterResource(
                         id = R.drawable.ic_minus
                     ),
                     contentDescription = "버튼",
@@ -117,13 +119,13 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
             // 일기
             Column(
                 modifier = Modifier.fillMaxWidth()
-            ){
+            ) {
                 // 날짜
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = if(diaryDate==today)"오늘" else "${diaryDate.monthValue}월 ${diaryDate.dayOfMonth}일",
+                        text = if (diaryDate == today) "오늘" else "${diaryDate.monthValue}월 ${diaryDate.dayOfMonth}일",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -161,7 +163,7 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                                 shape = RoundedCornerShape(10.dp)
                             ),
                         contentAlignment = Alignment.Center
-                    ){
+                    ) {
                         Image(
                             painter = painterResource(id = emotionDrawable),
                             contentDescription = "감정",
@@ -192,7 +194,9 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                                 start = androidx.compose.ui.geometry.Offset(0f, y),
                                 end = androidx.compose.ui.geometry.Offset(size.width, y),
                                 strokeWidth = strokeWidth,
-                                pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
+                                pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(
+                                    floatArrayOf(10f, 10f)
+                                )
                             )
                         }
                     }
@@ -226,13 +230,13 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
             // 할일
             Column(
                 modifier = Modifier.fillMaxWidth()
-            ){
+            ) {
                 // 날짜
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = if(diaryDate==today)"오늘" else "${diaryDate.monthValue}월 ${diaryDate.dayOfMonth}일",
+                        text = if (diaryDate == today) "오늘" else "${diaryDate.monthValue}월 ${diaryDate.dayOfMonth}일",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -244,8 +248,12 @@ fun DiaryScreen(diaryDate: String, navController: NavHostController) {
                 }
 
                 // 할일 목록 표시
-                todoViewModel.diaryInfo.forEach{todo->
-                    TodoTab(todoCategory = todo.todoCategory, todoCheckList = todo.todoCheckList, todoViewModel = todoViewModel)
+                todoViewModel.diaryInfo.forEach { todo ->
+                    TodoTab(
+                        todoCategory = todo.todoCategory,
+                        todoCheckList = todo.todoCheckList,
+                        todoViewModel = todoViewModel
+                    )
                 }
 
             }
